@@ -3,7 +3,19 @@ module.exports = {
     setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
     testPathIgnorePatterns: [
         '<rootDir>/node_modules/',
-        '<rootDir>/tests/' // <-- This tells Jest to ignore Playwright tests
+        '<rootDir>/tests/' // ignores Playwright tests
     ],
-    globalSetup: 'jest-preset-angular/global-setup',
+    transform: {
+        '^.+\\.(ts|js|mjs|html|svg)$': [
+            'jest-preset-angular',
+            {
+                tsconfig: '<rootDir>/tsconfig.spec.json',
+                stringifyContentPathRegex: '\\.(html|svg)$',
+            },
+        ],
+    },
+    // This tells Jest to transform Angular packages and tslib if it encounters them
+    transformIgnorePatterns: [
+        'node_modules/(?!.*\\.mjs$|@angular|tslib)'
+    ]
 };
