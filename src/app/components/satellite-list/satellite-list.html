@@ -1,28 +1,28 @@
 <div class="container">
-    <h2>Earth Observation Satellites</h2>
+  <h2>Earth Observation Satellites</h2>
 
-    <table border="1" cellpadding="10">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (sat of satellites; track sat.id) {
-            <tr>
-                <td>{{ sat.id }}</td>
-                <td>{{ sat.name }}</td>
-                <td>{{ sat.type }}</td>
-                <td>{{ sat.status }}</td>
-            </tr>
-            }
-        </tbody>
-    </table>
+  <table border="1" cellpadding="10">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (sat of satellites; track sat.id) {
+        <tr>
+          <td>{{ sat.id }}</td>
+          <td>{{ sat.name }}</td>
+          <td>{{ sat.type }}</td>
+          <td>{{ sat.status }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
 
-    <div *ngIf="satellites.length === 0">
-        <p>No satellites found. Try adding some via API!</p>
-    </div>
+  @if (satellites.length == 0) {
+    <p>No satellites found. Try adding some via API!</p>
+  }
 </div>
