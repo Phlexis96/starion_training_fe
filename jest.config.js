@@ -4,5 +4,6 @@ module.exports = {
     testPathIgnorePatterns: [
         '<rootDir>/node_modules/',
         '<rootDir>/tests/' // <-- This tells Jest to ignore Playwright tests
-    ]
+    ],
+    globalSetup: 'jest-preset-angular/global-setup',
 };
