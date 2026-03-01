@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { SatelliteService, Satellite } from './satellite.service';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('SatelliteService', () => {
   let service: SatelliteService;
@@ -9,7 +10,7 @@ describe('SatelliteService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [], // This mocks the HttpClient
-      providers: [SatelliteService]
+      providers: [SatelliteService, provideHttpClient(), provideHttpClientTesting()]
     });
 
     service = TestBed.inject(SatelliteService);

@@ -1,0 +1,49 @@
+name: Frontend CI (Test & Build)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  unit-tests:
+    name: Run Jest Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # Using 20 as it matches your Dockerfile base image
+          cache: 'npm' # Speeds up installation by caching dependencies
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm run test
+
+  docker-build:
+    name: Build Docker Image
+    needs: unit-tests # This ensures the Docker image ONLY builds if the Jest tests pass
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Setting up Docker Buildx allows for better caching and faster builds in GitHub Actions
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false # Set to true later if you want to push to Docker Hub or GitHub Container Registry
+          tags: starion-frontend:latest
+          # These cache options significantly speed up subsequent Docker builds in GitHub Actions
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
